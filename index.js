@@ -4,6 +4,7 @@ const client = new Discord.Client();
 const fsLibrary  = require('fs'); 
 const got = require('got');
 
+
 function meme(message) {
     const embed = new Discord.MessageEmbed();
     got('https://www.reddit.com/r/memesthatkill/random/.json').then(response => {
@@ -64,24 +65,25 @@ client.on('message', async (message) => {
   used = false
 
   if ((message.channel.type) === 'dm') {
-    //need help it's T!help
+    //need help it's t!help
     if ((message.content.toLowerCase()) == 'help') {
       const Help = new Discord.MessageEmbed()
-      Help.setTitle('(Use "T!help")')
+      Help.setTitle('(Use "t!help")')
       message.reply(Help);
       var used = true
     }
   }
 
   if ((message.content) == '!help') {
-    //for help use T!help instead
+    //for help use t!help instead
     const Help = new Discord.MessageEmbed()
-    Help.setTitle('(For help in using Tacanote use "T!help")')
+    Help.setTitle('(For help in using Tacanote use "t!help")')
     message.reply(Help);
     var used = true
   }
-
+  if (message.author.bot) return
   if (message.content.includes("gtg")) {
+    
     //say bye too person leaving for the time being
 		message.reply('bye');
     //set used to true so it adds one more to true
@@ -97,14 +99,15 @@ client.on('message', async (message) => {
   if (message.author.bot) return
   //Help
 
+
   if ((message.content.slice(2)) == 'help') {
-    //delete message of T!help
+    //delete message of t!help
     message.delete()
     const help = new Discord.MessageEmbed()
     //send list of things bot can do
     help.setTitle('Help List:')
     help.setColor('#5cf000')
-    help.setDescription('Main commands:\n\n• T! help = List of what the bot can do (u are looking at it rn)\n• T!reply = Reply with “k”\n• T!meme = meme from Reddit r/memesthatkill\n•  T!suggestion (suggestion) = Suggest something to be added (join the bots discord server to see the status of the suggestion)\n•  T!how many times have you been used? = About how many times he has been used\n\nOther:\n\n• gtg = Bot says bye\n• !help = Tell user how to use Tacanote help if they want to\n• Some commands are easter eggs try to find them or cheat using the bot github\n\nLinks:\n\n• T!server = This bots help and official server\n• T!website = Link to the website for this bot\n• T!invite = Invite link for this bot')
+    help.setDescription('Main commands:\n\n• t! help = List of what the bot can do (u are looking at it rn)\n• t!ds (website/app) = bot tells you if app/website has DarkMode (more things coming)\n• t!reply = Reply with “k”\n• t!meme = meme from Reddit r/memesthatkill\n• t!suggestion (suggestion) = Suggest something to be added (join the bots discord server to see the status of the suggestion)\n•  t!how many times have you been used? = About how many times he has been used\n\nOther:\n\n• gtg = Bot says bye\n• !help = Tell user how to use Tacanote help if they want to\n• Some commands are easter eggs try to find them or cheat using the bot github\n\nLinks:\n\n• t!server = This bots help and official server\n• t!website = Link to the website for this bot\n• t!invite = Invite link for this bot')
     message.channel.send(help)
     //set used to true so it adds one more to true
     var used = true
@@ -118,7 +121,7 @@ client.on('message', async (message) => {
   }
     if ((message.content.slice(2)) == 'invite') {
     const link = new Discord.MessageEmbed()
-    link.setDescription('Get Tacanote here: Not ready to be added by others')
+    link.setDescription('Get Tacanote here: https://discord.com/api/oauth2/authorize?client_id=877059528762470441&permissions=137439341632&scope=bot%20applications.commands \n(Bot is work in progress so some things might not work well)')
     message.channel.send(link)
     var used = true
   }
@@ -160,7 +163,7 @@ client.on('message', async (message) => {
   }
   
   //suggest command
-  if (message.content.slice(2).startsWith('suggestion')) {
+  if (message.content.slice(2).startsWith('suggestion ')) {
     const suggest = new Discord.MessageEmbed()
     suggest.setTitle('Suggestion made by: ' + message.author.username)
     suggest.setColor('#5cf000')
@@ -171,13 +174,43 @@ client.on('message', async (message) => {
     client.channels.cache.get('846452836615061564').send(suggest)
   }
 
+
+
   if ((message.content.slice(2)) == 'how many times have you been used?'){
     const timesused = new Discord.MessageEmbed()
     timesused.setDescription('I have been used ' + fsLibrary.readFileSync('times_used.int','utf8') + ' times')
     message.reply(timesused)
    var used = true
   }
-
+  if (message.content.slice(2).startsWith('ds')) {
+    var dml = fsLibrary.readFileSync('Darkmodelist.txt','utf8').indexOf(message.content.slice(5).toLowerCase());    
+    if(dml !== -1){
+      const dmle = new Discord.MessageEmbed()
+      dmle.setTitle(message.content.slice(5).toLowerCase() + ' has DarkMode')
+      dmle.setDescription("That app/website does have DarkMode (may only work on certain devices, also some apps/websites have the same name as others)")
+      dmle.setFooter('Want to add a website/app to the list? Fill out this form: https://forms.gle/1Bbqi4rGHikhK1D36')
+      dmle.setColor('#00FF00')
+      message.reply(dmle);
+      console.log(dml)
+      } else{
+      var pdml = fsLibrary.readFileSync('Payfordarkmodelist.txt','utf8').indexOf(message.content.slice(5).toLowerCase());
+      if(pdml !== -1){
+        const dmle = new Discord.MessageEmbed()
+        dmle.setTitle(message.content.slice(5).toLowerCase() + ' has pay to have DarkMode')
+        dmle.setDescription('That app/website does have DarkMode, but you must pay for DarkMode or app is not free. (may only work on certain devices, also some apps/websites have the same name as others)')
+        dmle.setColor('#FFFF00')
+        dmle.setFooter('Want to add a website/app to the list? Fill out this form: https://forms.gle/1Bbqi4rGHikhK1D36')
+        message.reply(dmle);
+      } else{
+        const dmle = new Discord.MessageEmbed()
+        dmle.setTitle(message.content.slice(5).toLowerCase() + ' does not have DarkMode')
+        dmle.setDescription('That app/website does not have DarkMode or has not been added to the list.')
+        dmle.setFooter('Want to add a website/app to the list? Fill out this form: https://forms.gle/1Bbqi4rGHikhK1D36')
+        dmle.setColor('#FF0000')
+        message.reply(dmle);
+      }
+    }
+  }
   if (used) {
     //add used
     var usedtimes = 0
