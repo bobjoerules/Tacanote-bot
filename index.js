@@ -108,6 +108,7 @@ client.on('message', async (message) => {
     help.setTitle('Help List:')
     help.setColor('#5cf000')
     help.setDescription('Main commands:\n\n• t! help = List of what the bot can do (u are looking at it rn)\n• t!ds (website/app) = bot tells you if app/website has DarkMode (more things coming)\n• t!reply = Reply with “k”\n• t!meme = meme from Reddit r/memesthatkill\n• t!suggestion (suggestion) = Suggest something to be added (join the bots discord server to see the status of the suggestion)\n•  t!how many times have you been used? = About how many times he has been used\n\nOther:\n\n• gtg = Bot says bye\n• !help = Tell user how to use Tacanote help if they want to\n• Some commands are easter eggs try to find them or cheat using the bot github\n\nLinks:\n\n• t!server = This bots help and official server\n• t!website = Link to the website for this bot\n• t!invite = Invite link for this bot')
+    help.setFooter('Help asked by: ' + message.author.username)
     message.channel.send(help)
     //set used to true so it adds one more to true
     var used = true
